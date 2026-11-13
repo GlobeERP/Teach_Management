@@ -9,6 +9,11 @@ use App\Http\Controllers\ExamMarksheetPdfController;
 use App\Http\Controllers\ExamMeritListPdfController;
 use App\Http\Controllers\ExamRoutinePdfController;
 use App\Http\Controllers\ExamSubjectStatsPdfController;
+use App\Http\Controllers\Media\ChunkedUploadController;
+use App\Http\Controllers\Media\MediaDownloadController;
+use App\Http\Controllers\Media\MediaUploadController;
+use App\Http\Controllers\Media\LessonVideoController;
+use App\Http\Controllers\Media\VideoStreamController;
 use App\Http\Controllers\PaymentVoucherPdfController;
 use App\Http\Controllers\ReceiptPdfController;
 use App\Http\Controllers\ReceiveVoucherPdfController;
@@ -20,6 +25,7 @@ use App\Http\Controllers\Public\AdmissionController;
 use App\Http\Controllers\Site\LocaleController;
 use App\Http\Controllers\Site\NoticeController;
 use App\Http\Controllers\Site\SitemapController;
+use App\Http\Controllers\TwoFactorChallengeController;
 use App\Http\Middleware\SetPublicLocale;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +65,14 @@ Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 Route::get('/certificates/verify/{certificate}', CertificateVerifyController::class)
     ->name('certificates.verify');
 
+Route::middleware('guest')->group(function () {
+    Route::get('/two-factor-challenge', [TwoFactorChallengeController::class, 'show'])
+        ->name('two-factor.challenge');
+    Route::post('/two-factor-challenge', [TwoFactorChallengeController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('two-factor.challenge.verify');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/receipts/{receipt}/pdf', ReceiptPdfController::class)
         ->name('receipts.pdf');
@@ -71,6 +85,31 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reports/exports/download', ReportExportDownloadController::class)
         ->name('reports.export.download');
+
+    // Central media module: private downloads, lesson video streaming and uploads.
+    Route::get('/media/{media}/download', MediaDownloadController::class)
+        ->name('media.download');
+
+    Route::get('/media/{media}/stream', VideoStreamController::class)
+        ->name('media.video');
+
+    Route::get('/lessons/{lesson}/video', LessonVideoController::class)
+        ->name('lessons.video');
+
+    Route::post('/media/upload', MediaUploadController::class)
+        ->name('media.upload');
+
+    Route::post('/media/chunked', [ChunkedUploadController::class, 'initiate'])
+        ->name('media.chunked.initiate');
+
+    Route::get('/media/chunked/{uploadId}', [ChunkedUploadController::class, 'status'])
+        ->name('media.chunked.status');
+
+    Route::post('/media/chunked/{uploadId}', [ChunkedUploadController::class, 'append'])
+        ->name('media.chunked.append');
+
+    Route::post('/media/chunked/{uploadId}/complete', [ChunkedUploadController::class, 'complete'])
+        ->name('media.chunked.complete');
 
     Route::get('/exams/{exam}/routine.pdf', ExamRoutinePdfController::class)
         ->name('exams.routine.pdf');

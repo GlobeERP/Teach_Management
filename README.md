@@ -64,3 +64,34 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## cPanel deployment
+
+Set PHP limits in the domain's `php.ini` or `.user.ini` to values appropriate
+for your deployment and the configured upload limits. For example:
+
+```ini
+upload_max_filesize = 512M
+post_max_size = 520M
+max_execution_time = 300
+memory_limit = 512M
+```
+
+Create the public storage link with `php artisan storage:link`. If cPanel does
+not permit Artisan to create symlinks, create the equivalent `public/storage`
+symlink in its File Manager or terminal. Keep the `private` disk outside the
+web root and configure the `cloud` disk credentials for the S3-compatible
+video bucket.
+
+Configure cron to run the Laravel scheduler every minute:
+
+```cron
+* * * * * cd /home/USER/path/to/application && php artisan schedule:run >> /dev/null 2>&1
+```
+
+Run a queue worker under cPanel's process manager (or a supervised cron
+worker) for queued image conversions and other queued jobs:
+
+```sh
+php artisan queue:work --sleep=3 --tries=3 --timeout=300
+```

@@ -72,6 +72,8 @@ class StudentResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('photo')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
                             ->directory('students/photos')
                             ->visibility('public')
                             ->imageEditor()

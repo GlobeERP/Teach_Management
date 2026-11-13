@@ -83,6 +83,7 @@ class EnterExamMarks extends Page implements HasForms
                     Forms\Components\FileUpload::make('csv')
                         ->label('CSV file')
                         ->acceptedFileTypes(['text/csv', 'text/plain', 'application/vnd.ms-excel'])
+                        ->maxSize(5120)
                         ->disk('local')
                         ->directory('exam-marks-imports')
                         ->required(),

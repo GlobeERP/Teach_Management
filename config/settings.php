@@ -92,9 +92,47 @@ return [
             'email_enabled' => true,
         ],
 
+        'security' => [
+            'login_max_attempts' => 5,
+            'session_timeout_minutes' => 60,
+            'password_min_length' => 12,
+            'password_mixed_case' => true,
+            'password_numbers' => true,
+            'password_symbols' => true,
+            'password_uncompromised' => false,
+            'two_factor_admin_required' => false,
+        ],
+
         'attendance' => [
             'min_percent' => 75,
             'notify_guardian_on_absent' => false,
+        ],
+
+        /*
+         * Central media module. Disk selection is per category; documents are
+         * always forced onto a private disk by the media service.
+         */
+        'media' => [
+            'disk_student_photo' => 'public',
+            'disk_student_documents' => 'private',
+            'disk_teacher_photo' => 'public',
+            'disk_teacher_documents' => 'private',
+            'disk_course_thumbnail' => 'public',
+            'disk_course_videos' => 'cloud',
+            'disk_notice_attachments' => 'private',
+            'disk_gallery' => 'public',
+            'disk_homepage_banner' => 'public',
+            'image_max_size_kb' => 5120,
+            'document_max_size_kb' => 10240,
+            'video_max_size_kb' => 512000,
+            'quota_student_documents' => 0,
+            'quota_teacher_documents' => 0,
+            'quota_course_videos' => 0,
+            'quota_gallery' => 0,
+            'quota_notice_attachments' => 0,
+            'antivirus_enabled' => false,
+            'clamav_path' => '/usr/bin/clamscan',
+            'upload_max_attempts' => 30,
         ],
 
         'numbering' => [

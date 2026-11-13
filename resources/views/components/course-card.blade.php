@@ -16,7 +16,14 @@
 <article data-reveal style="--d: {{ (int) $delay }}ms"
          {{ $attributes->class(['group glass flex h-full flex-col overflow-hidden rounded-3xl transition duration-300 hover:-translate-y-1.5 hover:shadow-lift focus-within:-translate-y-1.5 focus-within:shadow-lift']) }}>
     <div class="relative aspect-[8/5] overflow-hidden bg-primary/10">
-        @if ($course['image'])
+        @if (! empty($course['image_media']))
+            <x-media-image
+                :media="$course['image_media']"
+                :alt="$course['name']"
+                sizes="(max-width: 640px) 100vw, 640px"
+                class="size-full object-cover transition duration-500 group-hover:scale-105"
+            />
+        @elseif ($course['image'])
             <img src="{{ public_image($course['image']) }}" alt="{{ $course['name'] }}" width="640" height="400"
                  loading="lazy" decoding="async"
                  class="size-full object-cover transition duration-500 group-hover:scale-105">

@@ -50,6 +50,12 @@ return [
         'attendance.override',
         'exam.publish',
         'exam.override',
+        'activity_log.view',
+        'health.view',
+        'media.view',
+        'media.upload',
+        'media.delete',
+        'media.view_private',
     ],
 
     /*
@@ -86,6 +92,9 @@ return [
             'leave_request' => ['view', 'create'],
             'exam' => ['view', 'create', 'update'],
             'report' => ['view'],
+            'media.view' => [],
+            'media.upload' => [],
+            'media.view_private' => [],
         ],
 
         'student' => [
@@ -93,6 +102,7 @@ return [
             'enrollment' => ['view'],
             'fee' => ['view'],
             'payment' => ['view'],
+            'media.view' => [],
         ],
 
         'guardian' => [
@@ -102,6 +112,7 @@ return [
             'fee' => ['view'],
             'payment' => ['view'],
             'report' => ['view'],
+            'media.view' => [],
         ],
     ],
 ];
