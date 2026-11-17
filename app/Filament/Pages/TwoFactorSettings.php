@@ -46,7 +46,7 @@ class TwoFactorSettings extends Page
 
         $user = $this->user();
 
-        if (! $user->hasConfirmedTwoFactorAuthentication() && blank($user->two_factor_secret)) {
+        if (! $user->hasConfirmedTwoFactorAuthentication() && blank($user->decryptedTwoFactorSecret())) {
             $user->forceFill(['two_factor_secret' => $twoFactor->generateSecret()])->save();
         }
 
@@ -61,7 +61,7 @@ class TwoFactorSettings extends Page
 
         $user = $this->user();
 
-        if (! $twoFactor->verify($user->two_factor_secret, $this->code)) {
+        if (! $twoFactor->verify($user->decryptedTwoFactorSecret(), $this->code)) {
             $this->addError('code', 'The authentication code is invalid. Please try again.');
 
             return;
@@ -136,7 +136,7 @@ class TwoFactorSettings extends Page
         $user = $this->user();
 
         $this->enabled = $user->hasConfirmedTwoFactorAuthentication();
-        $this->secret = $user->two_factor_secret;
+        $this->secret = $user->decryptedTwoFactorSecret();
         $this->recoveryCodes = $user->recoveryCodes();
         $this->qrCodeDataUri = (! $this->enabled && filled($this->secret))
             ? $twoFactor->qrCodeDataUri($user, $this->secret)

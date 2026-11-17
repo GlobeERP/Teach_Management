@@ -149,7 +149,7 @@ class MediaService
      * A short-lived signed route for a lesson video. Authorization is checked
      * both here and again when the stream is opened.
      */
-    public function temporaryVideoUrl(Media $media, \App\Models\User $user, ?DateTimeInterface $expiration = null): string
+    public function temporaryVideoUrl(Media $media, ?\App\Models\User $user, ?DateTimeInterface $expiration = null): string
     {
         $media->loadMissing('model');
         $lesson = $media->model;

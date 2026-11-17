@@ -11,6 +11,12 @@
         'one_time' => __('site.courses.one_time'),
         default => null,
     };
+
+    $isOnline = ! empty($course['online']) && ! empty($course['code']);
+    $href = $isOnline
+        ? route('courses.show', ['course' => $course['code']])
+        : route('apply', ['course' => $course['id']]);
+    $ctaLabel = $isOnline ? __('site.courses.buy') : __('site.courses.enroll');
 @endphp
 
 <article data-reveal style="--d: {{ (int) $delay }}ms"
@@ -73,9 +79,9 @@
                 @endif
             </div>
 
-            <a href="{{ route('apply', ['course' => $course['id']]) }}" class="btn btn-primary !px-5 !py-2.5"
-               aria-label="{{ __('site.courses.enroll_in', ['course' => $course['name']]) }}">
-                {{ __('site.courses.enroll') }}
+            <a href="{{ $href }}" class="btn btn-primary !px-5 !py-2.5"
+               aria-label="{{ $isOnline ? __('site.courses.buy_in', ['course' => $course['name']]) : __('site.courses.enroll_in', ['course' => $course['name']]) }}">
+                {{ $ctaLabel }}
                 <x-heroicon-o-arrow-right class="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
         </div>

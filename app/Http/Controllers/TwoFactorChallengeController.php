@@ -56,7 +56,7 @@ class TwoFactorChallengeController extends Controller
         RateLimiter::hit($rateLimitKey, 60);
 
         $code = (string) $request->input('code');
-        $valid = $twoFactor->verify($user->two_factor_secret, $code)
+        $valid = $twoFactor->verify($user->decryptedTwoFactorSecret(), $code)
             || $twoFactor->verifyRecoveryCode($user, $code);
 
         if (! $valid) {

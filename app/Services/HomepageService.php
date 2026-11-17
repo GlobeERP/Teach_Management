@@ -108,6 +108,8 @@ class HomepageService
 
                 return [
                     'id' => $course->id,
+                    'code' => $course->code,
+                    'online' => $course->is_published && $course->hasOnlineComponent(),
                     'name' => $course->name,
                     'description' => $course->description,
                     'tagline' => $course->profile?->tagline,

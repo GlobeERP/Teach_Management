@@ -92,6 +92,20 @@ return [
             'email_enabled' => true,
         ],
 
+        /*
+         * Online course checkout. Secrets stay in .env; Settings can override
+         * non-secret defaults (gateway choice, merchant display numbers).
+         */
+        'payments' => [
+            'default_gateway' => null, // falls back to config('payments.default') / PAYMENT_GATEWAY
+            'sslcommerz_sandbox' => true,
+            'bkash_sandbox' => true,
+            'manual_bkash_number' => null,
+            'manual_nagad_number' => null,
+            'manual_instructions' => 'Send the exact net amount, then submit the TrxID for verification.',
+            'order_prefix' => 'ORD',
+        ],
+
         'security' => [
             'login_max_attempts' => 5,
             'session_timeout_minutes' => 60,
@@ -119,7 +133,9 @@ return [
             'disk_teacher_documents' => 'private',
             'disk_course_thumbnail' => 'public',
             'disk_course_videos' => 'cloud',
+            'disk_lesson_resources' => 'private',
             'disk_notice_attachments' => 'private',
+            'disk_assignment_submissions' => 'private',
             'disk_gallery' => 'public',
             'disk_homepage_banner' => 'public',
             'image_max_size_kb' => 5120,
@@ -128,8 +144,10 @@ return [
             'quota_student_documents' => 0,
             'quota_teacher_documents' => 0,
             'quota_course_videos' => 0,
+            'quota_lesson_resources' => 0,
             'quota_gallery' => 0,
             'quota_notice_attachments' => 0,
+            'quota_assignment_submissions' => 0,
             'antivirus_enabled' => false,
             'clamav_path' => '/usr/bin/clamscan',
             'upload_max_attempts' => 30,
@@ -143,6 +161,8 @@ return [
             'payment_voucher_prefix' => 'PAY',
             'receive_voucher_prefix' => 'RV',
             'certificate_prefix' => 'CERT',
+            'order_prefix' => 'ORD',
+            'registration_prefix' => 'REG',
             'admission_yearly_sequences' => [],
             'employee_yearly_sequences' => [],
             'invoice_yearly_sequences' => [],
@@ -150,6 +170,8 @@ return [
             'payment_voucher_yearly_sequences' => [],
             'receive_voucher_yearly_sequences' => [],
             'certificate_yearly_sequences' => [],
+            'order_yearly_sequences' => [],
+            'registration_yearly_sequences' => [],
             'format' => '{PREFIX}-{YEAR}-{NUMBER}',
             'padding' => 4,
         ],

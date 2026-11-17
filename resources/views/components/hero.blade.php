@@ -84,9 +84,13 @@
                         @endif
 
                         <div class="mt-9 flex flex-wrap items-center gap-3">
-                            <a href="{{ $slide['cta_url'] ?: route('apply') }}" class="btn btn-primary !px-7 !py-3.5 text-base">
+                            <a href="{{ $slide['cta_url'] ?: '#courses' }}" class="btn btn-primary !px-7 !py-3.5 text-base">
                                 {{ $slide['cta_label'] ?: __('site.hero.cta_primary') }}
                                 <x-heroicon-o-arrow-right class="size-5" aria-hidden="true" />
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-ghost !px-7 !py-3.5 text-base">
+                                <x-heroicon-o-user-plus class="size-5" aria-hidden="true" />
+                                {{ __('site.nav.register') }}
                             </a>
                             <a href="#courses" class="btn btn-ghost !px-7 !py-3.5 text-base">{{ __('site.hero.cta_secondary') }}</a>
                         </div>

@@ -10,7 +10,9 @@ enum MediaCategory: string
     case TeacherDocument = 'teacher_documents';
     case CourseThumbnail = 'course_thumbnail';
     case CourseVideo = 'course_videos';
+    case LessonResource = 'lesson_resources';
     case NoticeAttachment = 'notice_attachments';
+    case AssignmentSubmission = 'assignment_submissions';
     case Gallery = 'gallery';
     case HomepageBanner = 'homepage_banner';
 
@@ -25,7 +27,9 @@ enum MediaCategory: string
 
             self::StudentDocument,
             self::TeacherDocument,
-            self::NoticeAttachment => MediaType::Document,
+            self::LessonResource,
+            self::NoticeAttachment,
+            self::AssignmentSubmission => MediaType::Document,
 
             self::CourseVideo => MediaType::Video,
         };
@@ -40,7 +44,9 @@ enum MediaCategory: string
             self::TeacherDocument => 'Teacher documents',
             self::CourseThumbnail => 'Course thumbnails',
             self::CourseVideo => 'Course videos',
+            self::LessonResource => 'Lesson resources',
             self::NoticeAttachment => 'Notice attachments',
+            self::AssignmentSubmission => 'Assignment submissions',
             self::Gallery => 'Gallery images',
             self::HomepageBanner => 'Homepage banners',
         };
@@ -71,7 +77,9 @@ enum MediaCategory: string
             self::StudentDocument,
             self::TeacherDocument,
             self::CourseVideo,
+            self::LessonResource,
             self::NoticeAttachment,
+            self::AssignmentSubmission,
             self::Gallery => true,
             default => false,
         };

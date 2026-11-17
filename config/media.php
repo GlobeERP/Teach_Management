@@ -170,8 +170,10 @@ return [
         'student_documents' => 0,
         'teacher_documents' => 0,
         'course_videos' => 0,
+        'lesson_resources' => 0,
         'gallery' => 0,
         'notice_attachments' => 0,
+        'assignment_submissions' => 0,
     ],
 
     /*
@@ -189,5 +191,7 @@ return [
         'gallery_image' => \App\Models\GalleryImage::class,
         'banner' => \App\Models\Banner::class,
         'lesson' => \App\Models\Lesson::class,
+        'lesson_resource' => \App\Models\LessonResource::class,
+        'assignment_submission' => \App\Models\AssignmentSubmission::class,
     ],
 ];

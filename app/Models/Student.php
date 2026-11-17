@@ -35,9 +35,19 @@ class Student extends Model implements HasMedia
         'name',
         'dob',
         'gender',
+        'national_id',
+        'birth_certificate_no',
+        'religion',
+        'blood_group',
         'email',
         'phone',
         'address',
+        'present_address',
+        'permanent_address',
+        'last_institution',
+        'last_exam',
+        'last_result',
+        'passing_year',
         'photo',
         'status',
     ];
@@ -48,6 +58,7 @@ class Student extends Model implements HasMedia
             'dob' => 'date',
             'gender' => Gender::class,
             'status' => StudentStatus::class,
+            'passing_year' => 'integer',
         ];
     }
 
@@ -98,4 +109,3 @@ class Student extends Model implements HasMedia
         return $this->hasMany(Receipt::class);
     }
 }
-

@@ -95,7 +95,7 @@ class TwoFactorAuthenticationService
 
     public function verifyRecoveryCode(User $user, string $code): bool
     {
-        $codes = $user->two_factor_recovery_codes ?? [];
+        $codes = $user->recoveryCodes();
         $normalized = Str::upper(trim($code));
 
         if (! in_array($normalized, $codes, true)) {

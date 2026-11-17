@@ -9,7 +9,10 @@ use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::preventLazyLoading(! app()->isProduction());
+
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
 
         if (app()->environment('production') && config('security.force_debug_off_in_production', true)) {
             config(['app.debug' => false]);
@@ -99,6 +106,19 @@ class AppServiceProvider extends ServiceProvider
             fn (): HtmlString => new HtmlString(
                 '<link rel="stylesheet" href="'.e(asset('css/filament-compact.css')).'" data-navigate-track />'
             ),
+        );
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::SCRIPTS_AFTER,
+            fn (): HtmlString => new HtmlString(
+                '<script src="'.e(asset('js/filament-sidebar-accordion.js')).'" data-navigate-track></script>'
+            ),
+        );
+
+        // Visible "Home" button on every panel topbar → public website.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::USER_MENU_BEFORE,
+            fn (): string => view('filament.hooks.website-home-button')->render(),
         );
     }
 
